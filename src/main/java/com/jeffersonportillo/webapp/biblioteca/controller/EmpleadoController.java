@@ -21,7 +21,7 @@ import com.jeffersonportillo.webapp.biblioteca.service.EmpleadoService;
  
 @Controller
 @RestController
-@RequestMapping(value = "")
+@RequestMapping(value = "empleado")
 public class EmpleadoController {
  
   @Autowired
@@ -49,14 +49,57 @@ public class EmpleadoController {
   public ResponseEntity<Map<String, String>> agregarEmpleado(@RequestBody Empleado empleado) {
     Map<String, String> response = new HashMap<>();
     try {
-      empleadoService.guardarEmpleado(empleado);
-      response.put("message", "El Empleado se creo con exito");
-      return ResponseEntity.ok(response);
+      if (empleadoService.guardarEmpleado(empleado)) {
+        response.put("message", "Empleado creado con exito");
+        return ResponseEntity.ok(response);
+      }else{
+        response.put("message", "Error");
+        response.put("err", "El empleado no se registro, por DPI duplicado");
+        return ResponseEntity.badRequest().body(response);
+      }
     } catch (Exception e) {
       response.put("message", "Error");
       response.put("err", "Hubo un error al crear el cliente");
       return ResponseEntity.badRequest().body(response);
     }
- 
   }
+
+  @PutMapping("/empleado")
+    public ResponseEntity<Map<String, String>>editarEmpleado(@RequestParam Long id, @RequestBody Empleado empleadoNuevo){
+        Map<String,String> response = new HashMap<>();
+        try {
+            Empleado empleado = empleadoService.buscarEmpleadoPorId(id);
+            empleado.setNombre(empleadoNuevo.getNombre());
+            empleado.setApellido(empleadoNuevo.getApellido());
+            empleado.setTelefono(empleadoNuevo.getTelefono());
+            empleado.setDireccion(empleadoNuevo.getDireccion());
+            empleado.setDpi(empleadoNuevo.getDpi());
+            empleadoService.guardarEmpleado(empleado);
+            if(empleadoService.guardarEmpleado(empleado)){
+                response.put("message", "Empleado se ha editado");
+                return ResponseEntity.ok(response);
+            }else{
+                response.put("message", "DPI Duplicado");
+                return ResponseEntity.badRequest().body(response);
+            }    
+        } catch (Exception e) {
+            response.put("message", "Error");
+            response.put("message", "Hubo Un Error Al Editar El Empleado");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+  @DeleteMapping("/empleado")
+    public ResponseEntity<Map<String, String>>eliminarEmpleado(@RequestParam Long id){
+        Map<String,String> response = new HashMap<>();
+        try {
+            Empleado empleado = empleadoService.buscarEmpleadoPorId(id);
+            empleadoService.eliminarEmpleado(empleado); 
+            response.put("message", "El Empleado Se Elimino Con Exito");
+            return ResponseEntity.ok(response); 
+        } catch (Exception e) {
+            response.put("message", "Hubo Un Error Al Eliminar El Empleado");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

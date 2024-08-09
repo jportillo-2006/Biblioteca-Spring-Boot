@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jeffersonportillo.webapp.biblioteca.model.Cliente;
 import com.jeffersonportillo.webapp.biblioteca.model.Empleado;
-import com.jeffersonportillo.webapp.biblioteca.repository.ClienteRepository;
 import com.jeffersonportillo.webapp.biblioteca.repository.EmpleadoRepository;
 
 @Service
@@ -27,12 +25,30 @@ public class EmpleadoService implements IEmpleadoService{
     }
 
     @Override
-    public Empleado guardarEmpleado(Empleado empleado) {
-        return empleadoRepository.save(empleado);
+    public Boolean guardarEmpleado(Empleado empleado) {
+        if (!verificarDpiDuplicado(empleado)) {
+            empleadoRepository.save(empleado);
+            return true;
+        } else{
+            return false;
+        }
     }
 
     @Override
     public void eliminarEmpleado(Empleado empleado) {
         empleadoRepository.delete(empleado); 
+    }
+
+    @Override
+    public Boolean verificarDpiDuplicado(Empleado empleadoNuevo) {
+        List<Empleado> empleados = listarEmpleados();
+        Boolean flag = false;
+
+        for (Empleado empleado : empleados){
+            if (empleadoNuevo.getDpi().equals(empleado.getDpi()) && !empleado.getId().equals(empleadoNuevo.getId())) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 }

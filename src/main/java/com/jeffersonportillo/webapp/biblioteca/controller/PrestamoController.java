@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeffersonportillo.webapp.biblioteca.model.Libro;
 import com.jeffersonportillo.webapp.biblioteca.model.Prestamo;
 import com.jeffersonportillo.webapp.biblioteca.service.PrestamoService;
 
