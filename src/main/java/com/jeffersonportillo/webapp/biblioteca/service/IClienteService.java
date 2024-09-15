@@ -8,7 +8,7 @@ public interface IClienteService {
     
     public List<Cliente> listarClientes();
 
-    public Cliente buscarClientePorId(Long dpi);
+    public Cliente buscarClientePorId(long id);
 
     public Cliente guardarCliente(Cliente cliente);
 

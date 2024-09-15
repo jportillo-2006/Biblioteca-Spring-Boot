@@ -9,20 +9,10 @@ import com.jeffersonportillo.webapp.biblioteca.model.Libro;
 import com.jeffersonportillo.webapp.biblioteca.repository.LibroRepository;
 
 @Service
-public class LibroService implements ILibroService{
+public class LibroService implements ILibroService {
 
     @Autowired
     LibroRepository libroRepository;
-
-    @Override
-    public List<Libro> listarLibros() {
-        return libroRepository.findAll();
-    }
-
-    @Override
-    public Libro guardarLibro(Libro libro) {
-        return libroRepository.save(libro);
-    }
 
     @Override
     public Libro buscarLibroPorId(Long id) {
@@ -34,4 +24,19 @@ public class LibroService implements ILibroService{
         libroRepository.delete(libro);
     }
 
+    @Override
+    public Libro guardarLibro(Libro libro) {
+        return libroRepository.save(libro);
+    }
+
+    @Override
+    public List<Libro> listarLibros() {
+        return libroRepository.findAll();
+    }
+    
+    @Override
+    public void actualizarDisponibilidad(Libro libro, Boolean disponibilidad) {
+            libro.setDisponibilidad(disponibilidad);
+            guardarLibro(libro);
+    }
 }

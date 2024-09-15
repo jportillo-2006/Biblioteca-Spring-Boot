@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jeffersonportillo.webapp.biblioteca.controller.FXController.IndexController">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="1239.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Selection">
+            <items>
+              <MenuItem fx:id="btnCategoria" mnemonicParsing="false" onAction="#handleButtonAction" text="Categorias" />
+                  <MenuItem fx:id="btnEmpleados" mnemonicParsing="false" onAction="#handleButtonAction" text="Empleados" />
+                  <MenuItem fx:id="btnClientes" mnemonicParsing="false" onAction="#handleButtonAction" text="Cliente" />
+                  <MenuItem fx:id="btnLibros" mnemonicParsing="false" onAction="#handleButtonAction" text="Libros" />
+                  <MenuItem fx:id="btnPrestamos" mnemonicParsing="false" onAction="#handleButtonAction" text="Prestamos" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="about">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <ImageView fitHeight="697.0" fitWidth="1280.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Index.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

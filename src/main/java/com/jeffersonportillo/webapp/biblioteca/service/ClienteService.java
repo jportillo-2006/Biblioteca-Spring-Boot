@@ -10,18 +10,18 @@ import com.jeffersonportillo.webapp.biblioteca.repository.ClienteRepository;
 
 @Service
 public class ClienteService implements IClienteService{
-
+    
     @Autowired
     private ClienteRepository clienteRepository;
 
     @Override
     public List<Cliente> listarClientes() {
-        return clienteRepository.findAll();
+       return clienteRepository.findAll();
     }
 
     @Override
-    public Cliente buscarClientePorId(Long dpi) {
-        return clienteRepository.findById(dpi).orElse(null);
+    public Cliente buscarClientePorId(long id) {
+        return clienteRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class ClienteService implements IClienteService{
 
     @Override
     public void eliminarCliente(Cliente cliente) {
-        clienteRepository.delete(cliente); 
+        clienteRepository.delete(cliente);
     }
 }

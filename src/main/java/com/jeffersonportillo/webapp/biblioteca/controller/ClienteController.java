@@ -21,67 +21,66 @@ import com.jeffersonportillo.webapp.biblioteca.service.ClienteService;
 
 @Controller
 @RestController
-@RequestMapping(value = "cliente")
+@RequestMapping(value = "")
 public class ClienteController {
 
     @Autowired
     ClienteService clienteService;
 
     @GetMapping("/clientes")
-    public List<Cliente> listaClientes(){
+    public List<Cliente>listarClientes(){
         return clienteService.listarClientes();
     }
 
     @GetMapping("/cliente")
-    public ResponseEntity<Cliente> buscarClientePorId(@RequestParam Long dpi){
+    public ResponseEntity<Cliente>buscarClientePorId(@RequestParam Long id){
         try {
-            return ResponseEntity.ok(clienteService.buscarClientePorId(dpi));
-        } catch (Exception e){
+            return ResponseEntity.ok(clienteService.buscarClientePorId(id));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    
-    @PostMapping("/")
-    public ResponseEntity<Map<String, Boolean>> agregarCliente(@RequestBody Cliente cliente){
-        Map<String, Boolean> response = new HashMap<>();
-        try{
+
+    @PostMapping("/cliente")
+    public ResponseEntity<Map<String, String>> agregarCliente(@RequestBody Cliente cliente){
+        Map<String,String> response = new HashMap<>();
+        try {
             clienteService.guardarCliente(cliente);
-            response.put("se agrego con exito", Boolean.TRUE);
+            response.put("message", "El cliente se agrego con exito");
             return ResponseEntity.ok(response);
-        }catch(Exception e){
-            response.put("se agrego con exito", Boolean.TRUE);
+        } catch (Exception e) {
+            response.put("err", "Hubo un error al agregar el cliente");
             return ResponseEntity.badRequest().body(response);
         }
     }
 
     @PutMapping("/cliente")
-    public ResponseEntity<Map<String, String>> editarCliente(@RequestParam Long dpi, @RequestBody Cliente nombreNuevo, @RequestBody Cliente apellidoNuevo, @RequestBody Cliente telefonoNuevo) {
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>>editarCliente(@RequestParam Long id, @RequestBody Cliente clienteNuevo){
+        Map<String,String> response = new HashMap<>();
         try {
-            Cliente cliente = clienteService.buscarClientePorId(dpi);
-
-            cliente.setNombre(nombreNuevo.getNombre());
-            cliente.setApellido(apellidoNuevo.getApellido());
-            cliente.setTelefono(telefonoNuevo.getTelefono());
+            Cliente cliente = clienteService.buscarClientePorId(id);
+            cliente.setNombre(clienteNuevo.getNombre());
+            cliente.setApellido(clienteNuevo.getApellido());
+            cliente.setTelefono(clienteNuevo.getTelefono());
             clienteService.guardarCliente(cliente);
-            response.put("message", "El cliente se ha editado");
+            response.put("message", "El cliente se edito con exito");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("message", "El cliente no pudo editarse");
+            response.put("message", "Hubo un error al editar el cliente");
             return ResponseEntity.badRequest().body(response);
         }
     }
 
     @DeleteMapping("/cliente")
-    public ResponseEntity<Map<String, String>> eliminarCliente(@RequestParam Long dpi){
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>>eliminarCliente(@RequestParam Long id){
+        Map<String,String> response = new HashMap<>();
         try {
-            Cliente cliente = clienteService.buscarClientePorId(dpi);
-            clienteService.eliminarCliente(cliente);
-            response.put("message", "Cliente eliminado con exito");
-            return ResponseEntity.ok(response);
-        } catch(Exception e) {
-            response.put("message", "Cliente eliminado con exito");
+            Cliente cliente = clienteService.buscarClientePorId(id);
+            clienteService.eliminarCliente(cliente); 
+            response.put("message", "El cliente se elimino con exito");
+            return ResponseEntity.ok(response); 
+        } catch (Exception e) {
+            response.put("message", "Hubo un error al eliminar el cliente");
             return ResponseEntity.badRequest().body(response);
         }
     }

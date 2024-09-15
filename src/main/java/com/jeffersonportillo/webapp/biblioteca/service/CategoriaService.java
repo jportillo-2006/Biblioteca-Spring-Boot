@@ -16,17 +16,17 @@ public class CategoriaService implements ICategoriaService{
 
     @Override
     public List<Categoria> listarCategorias() {
-        return categoriaRepository.findAll();
+       return categoriaRepository.findAll();
     }
 
     @Override
-    public Categoria buscarCategoriaPorId(Long id) {
+    public Categoria buscarCategoriaPorId(long id) {
         return categoriaRepository.findById(id).orElse(null);
     }
 
     @Override
     public Boolean guardarCategoria(Categoria categoria) {
-        if(!verificarCategoriaDuplicada(categoria)){
+        if (!verificarCategoriaDuplicada(categoria)) {
             categoriaRepository.save(categoria);
             return true;
         }else{
@@ -36,15 +36,16 @@ public class CategoriaService implements ICategoriaService{
 
     @Override
     public void eliminarCategoria(Categoria categoria) {
-        categoriaRepository.delete(categoria);    
+        categoriaRepository.delete(categoria);
     }
 
     @Override
     public Boolean verificarCategoriaDuplicada(Categoria categoriaNueva) {
         List<Categoria> categorias = listarCategorias();
         Boolean flag = false;
-        for (Categoria categoria : categorias){
-            if(categoriaNueva.getNombreCategoria().trim().equalsIgnoreCase(categoria.getNombreCategoria().trim()) && categoriaNueva.getId().equals(categoria.getId())){
+
+        for (Categoria categoria : categorias) {
+            if (categoriaNueva.getNombreCategoria().trim().equalsIgnoreCase(categoria.getNombreCategoria().trim())&&!categoriaNueva.getId().equals(categoria.getId())) {
                 return true;
             }
         }
